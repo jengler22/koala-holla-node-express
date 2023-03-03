@@ -10,8 +10,10 @@ function getKoalas(){
     contentDiv.innerHTML = '';
     let i = 0;
     for(let koala of koalasFromServer) {
+      //TODO make toggle for 'ready to transfer'
       contentDiv.innerHTML += `
       <tr>
+          <td>${i + 1}</td>
           <td>${koala.name}</td>
           <td>${koala.age}</td>
           <td>${koala.gender}</td>
@@ -24,12 +26,12 @@ function getKoalas(){
     }
   }).catch((error)=> {
     console.log(error);
-    alert('koala ecaped! also, something is wrong.');
+    alert('koala escaped! also, something is wrong.');
   });
   
 } // end getKoalas
 
-//TODO possible database questin??????????? 
+//TODO possible database question??????????? 
 /*
 function saveKoala(){
   console.log( 'in saveKoala' );
