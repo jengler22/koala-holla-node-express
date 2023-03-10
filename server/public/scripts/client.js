@@ -8,21 +8,20 @@ function getKoalas(){
     let koalasFromServer = response.data;
     let contentDiv = document.querySelector("#viewKoalas");
     contentDiv.innerHTML = '';
-    let i = 0;
+  // let i = 0;
     for(let koala of koalasFromServer) {
       //TODO make toggle for 'ready to transfer'
       contentDiv.innerHTML += `
       <tr>
-          <td>${i + 1}</td>
           <td>${koala.name}</td>
           <td>${koala.age}</td>
           <td>${koala.gender}</td>
           <td>${koala.readyForTransfer}</td>
           <td>${koala.notes}</td>
-          <td><button id="deleteButton" onclick="deleteKoala(${i})">Delete</button></td>
+          <td><button id="deleteButton" onclick="deleteKoala(${koala.id})">Delete</button></td>
       </tr>
       `;
-      i += 1;
+     // i += 1;
     }
   }).catch((error)=> {
     console.log(error);
