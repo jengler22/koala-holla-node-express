@@ -11,16 +11,29 @@ function getKoalas(){
   // let i = 0;
     for(let koala of koalasFromServer) {
       //TODO make toggle for 'ready to transfer'
-      contentDiv.innerHTML += `
-      <tr>
-          <td>${koala.name}</td>
-          <td>${koala.age}</td>
-          <td>${koala.gender}</td>
-          <td>${koala.readyForTransfer}</td>
-          <td>${koala.notes}</td>
-          <td><button id="deleteButton" onclick="deleteKoala(${koala.id})">Delete</button></td>
-      </tr>
-      `;
+      if ( koala.readyForTransfer === true ) {
+        contentDiv.innerHTML += `
+          <tr>
+              <td>${koala.name}</td>
+              <td>${koala.age}</td>
+              <td>${koala.gender}</td>
+              <td>${koala.readyForTransfer}</td>
+              <td>${koala.notes}</td>
+              <td><button id="deleteButton" onclick="deleteKoala(${koala.id})">Delete</button></td>
+          </tr>
+          `;
+      } else if ( koala.readyForTransfer === false ) {
+          contentDiv.innerHTML += `
+          <tr>
+              <td>${koala.name}</td>
+              <td>${koala.age}</td>
+              <td>${koala.gender}</td>
+              <td><button id="readyForTransferButton" onclick="toggleTransfer(${koala.id})">Ready For Transfer</button></td>
+              <td>${koala.notes}</td>
+              <td><button id="deleteButton" onclick="deleteKoala(${koala.id})">Delete</button></td>
+          </tr>
+          `;
+      }
      // i += 1;
     }
   }).catch((error)=> {
@@ -57,6 +70,12 @@ function addKoala(event) {
       notes: koalaNotes
   };
 
+  console.log( koalaForServer.readyForTransfer );
+  if(koalaForServer.readyForTransfer != 'true' && koalaForServer.readyForTransfer != 'false') {
+    alert( 'Ready to transfer must be true or false' );
+    return;
+  }
+
   axios.post( '/koalas', koalaForServer ).then((response) => {
       console.log( response );
       getKoalas();  
@@ -75,5 +94,15 @@ function deleteKoala(index) {
     }).catch((error) =>{
       console.log(error);
       alert('Whoops. Is that even a koala?!');
+    })
+};
+
+// Failed attempt at making toggle transfer button work :(
+function toggleTransfer(index) {
+    console.log( `Changing ready for transfer for ${index}` );
+    axios.put(`/koalas/${index}`, {readyForTransfer: 'true'}).then((response) => {
+    getKoalas();
+    }).catch((error) => {
+      console.log( `Toggle transfer error ${error}` );
     })
 };
