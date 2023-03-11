@@ -20,7 +20,7 @@ koalaRouter.get( '/', (req, res) => {
     // res.send( koalaList );
 });
 
-// POST
+// POST //
 koalaRouter.post( '/', (req, res) => {
     console.log( 'POST request made for /koalas' );
     console.log( req.body );
